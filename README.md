@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow — Gestor de Tasques amb Assistent IA
 
-## Getting Started
+Una Progressive Web App (PWA) per gestionar tasques diàries amb un assistent d'intel·ligència artificial integrat (Claude d'Anthropic).
 
-First, run the development server:
+## Funcionalitats
+
+- **Gestió de tasques**: crea, completa i elimina tasques amb títol, descripció, prioritat i data límit
+- **Filtres**: filtra per estat (actives/completades) i prioritat (alta/mitjana/baixa)
+- **Persistència local**: les tasques es guarden a localStorage i es restauren en recarregar
+- **Assistent IA**: xat integrat amb Claude que coneix les teves tasques i et pot ajudar a organitzar-te
+- **PWA instal·lable**: l'app es pot instal·lar al dispositiu com una app nativa
+
+## Stack tecnològic
+
+| Capa | Tecnologia |
+|---|---|
+| Frontend | Nuxt 3 (Vue 3 + Composition API) |
+| Estils | Tailwind CSS |
+| Serverless | Nitro (Nuxt server routes) |
+| IA | Anthropic SDK (Claude claude-sonnet-4-6) |
+| PWA | @vite-pwa/nuxt |
+
+## Estructura del projecte
+
+```
+taskflow/
+├── app/
+│   ├── app.vue                    # Layout principal i lògica de filtres
+│   ├── assets/css/main.css        # Tailwind CSS
+│   ├── components/
+│   │   ├── TaskForm.vue           # Formulari per crear tasques
+│   │   ├── TaskCard.vue           # Targeta de tasca individual
+│   │   └── ChatPanel.vue          # Panell lateral del xat IA
+│   └── composables/
+│       └── useTasks.ts            # Estat i persistència de tasques
+├── server/api/
+│   └── chat.post.ts               # Endpoint serverless → Claude API
+├── SPEC.md                        # Especificació tècnica del sistema
+├── PROCESS.md                     # Registre del procés de desenvolupament amb IA
+└── .env.example                   # Plantilla de variables d'entorn
+```
+
+## Posada en marxa
+
+### 1. Clona el repositori
+
+```bash
+git clone https://github.com/a20valzavvas/taskflow.git
+cd taskflow
+```
+
+### 2. Instal·la les dependències
+
+```bash
+npm install
+```
+
+### 3. Configura les variables d'entorn
+
+```bash
+cp .env.example .env
+```
+
+Edita `.env` i afegeix la teva clau d'API d'Anthropic:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+### 4. Inicia el servidor de desenvolupament
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Obre [http://localhost:3000](http://localhost:3000) al navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Desplegament
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run preview
+```
 
-## Learn More
+## Metodologia
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aquest projecte segueix la metodologia **Specification-Driven Development (SDD)**. Consulta [SPEC.md](SPEC.md) per a l'especificació tècnica completa i [PROCESS.md](PROCESS.md) per al registre del procés de desenvolupament amb IA.

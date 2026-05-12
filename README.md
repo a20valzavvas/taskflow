@@ -1,24 +1,24 @@
 # TaskFlow — Gestor de Tasques amb Assistent IA
 
-Una Progressive Web App (PWA) per gestionar tasques diàries amb un assistent d'intel·ligència artificial integrat (Claude d'Anthropic).
+Una Progressive Web App (PWA) per gestionar tasques diàries amb un assistent d'intel·ligència artificial integrat (Llama 3.1 via Groq).
 
 ## Funcionalitats
 
 - **Gestió de tasques**: crea, completa i elimina tasques amb títol, descripció, prioritat i data límit
 - **Filtres**: filtra per estat (actives/completades) i prioritat (alta/mitjana/baixa)
 - **Persistència local**: les tasques es guarden a localStorage i es restauren en recarregar
-- **Assistent IA**: xat integrat amb Claude que coneix les teves tasques i et pot ajudar a organitzar-te
+- **Assistent IA**: xat integrat amb Llama 3.1 (Groq) que coneix les teves tasques i et pot ajudar a organitzar-te
 - **PWA instal·lable**: l'app es pot instal·lar al dispositiu com una app nativa
 
 ## Stack tecnològic
 
-| Capa | Tecnologia |
-|---|---|
-| Frontend | Nuxt 3 (Vue 3 + Composition API) |
-| Estils | Tailwind CSS |
-| Serverless | Nitro (Nuxt server routes) |
-| IA | Anthropic SDK (Claude claude-sonnet-4-6) |
-| PWA | @vite-pwa/nuxt |
+| Capa       | Tecnologia                               |
+| ---------- | ---------------------------------------- |
+| Frontend   | Nuxt 3 (Vue 3 + Composition API)         |
+| Estils     | Tailwind CSS                             |
+| Serverless | Nitro (Nuxt server routes)               |
+| IA         | Groq SDK (Llama 3.1 8B Instant)          |
+| PWA        | @vite-pwa/nuxt                           |
 
 ## Estructura del projecte
 
@@ -34,7 +34,7 @@ taskflow/
 │   └── composables/
 │       └── useTasks.ts            # Estat i persistència de tasques
 ├── server/api/
-│   └── chat.post.ts               # Endpoint serverless → Claude API
+│   └── chat.post.ts               # Endpoint serverless → Groq API
 ├── SPEC.md                        # Especificació tècnica del sistema
 ├── PROCESS.md                     # Registre del procés de desenvolupament amb IA
 └── .env.example                   # Plantilla de variables d'entorn
@@ -61,10 +61,10 @@ npm install
 cp .env.example .env
 ```
 
-Edita `.env` i afegeix la teva clau d'API d'Anthropic:
+Edita `.env` i afegeix la teva clau d'API de Groq:
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...
+GROQ_API_KEY=gsk_...
 ```
 
 ### 4. Inicia el servidor de desenvolupament

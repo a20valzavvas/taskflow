@@ -1,6 +1,6 @@
 # SPEC.md — TaskFlow: Gestor de Tasques amb Assistent IA
 
-> Document generat iterativament amb l'ajuda de Claude (Anthropic) com a part del procés SDD.
+> Document generat iterativament amb l'ajuda de Claude Code com a part del procés SDD.
 
 ---
 
@@ -19,7 +19,7 @@ L'usuari pot crear, completar i eliminar tasques, filtrar-les per prioritat i es
 | F3 | Completar tasca | Marcar/desmarcar una tasca com a feta |
 | F4 | Eliminar tasca | Eliminar una tasca de la llista |
 | F5 | Persistència local | Les tasques es guarden a localStorage |
-| F6 | Xat assistent | Panell lateral amb xat connectat a Claude API |
+| F6 | Xat assistent | Panell lateral amb xat connectat a Groq API |
 | F7 | Context de tasques | L'assistent rep automàticament la llista de tasques actives |
 | F8 | PWA instal·lable | L'app es pot instal·lar al dispositiu com una app nativa |
 
@@ -30,8 +30,8 @@ L'usuari pot crear, completar i eliminar tasques, filtrar-les per prioritat i es
 | Actor | Rol |
 |---|---|
 | **Usuari** | Persona que gestiona les seves tasques i interacciona amb el xat |
-| **Claude (Anthropic API)** | Model d'IA que actua com a assistent de productivitat |
-| **Servidor Nitro (Nuxt)** | Capa serverless que gestiona la comunicació amb l'API d'Anthropic de forma segura |
+| **Llama 3.1 (Groq API)** | Model d'IA que actua com a assistent de productivitat |
+| **Servidor Nitro (Nuxt)** | Capa serverless que gestiona la comunicació amb l'API de Groq de forma segura |
 
 ---
 
@@ -62,7 +62,7 @@ L'usuari pot crear, completar i eliminar tasques, filtrar-les per prioritat i es
                 [POST /api/chat amb missatge + context de tasques]
                         |
                         v
-                [Servidor Nitro → Anthropic API → Claude]
+                [Servidor Nitro → Groq API → Llama 3.1]
                         |
                         v
                 [Resposta de l'assistent apareix al xat]
@@ -129,9 +129,9 @@ interface ChatResponse {
 | Error | `{ error: string }` amb status 500 |
 
 **Lògica interna:**
-1. Llegeix `ANTHROPIC_API_KEY` de les variables d'entorn (mai exposada al client)
+1. Llegeix `GROQ_API_KEY` de les variables d'entorn (mai exposada al client)
 2. Construeix el system prompt amb el context de tasques actives de l'usuari
-3. Envia el historial de conversa + el nou missatge a `claude-sonnet-4-6`
+3. Envia el historial de conversa + el nou missatge a `llama-3.1-8b-instant`
 4. Retorna la resposta de text al client
 
 **System prompt:**
@@ -186,7 +186,7 @@ L'assistent **no pot** crear ni eliminar tasques directament (l'usuari ho ha de 
 │   server/api/chat.post.ts               │
 │         │                               │
 │         ▼                               │
-│   Anthropic SDK → Claude claude-sonnet-4-6    │
+│   Groq SDK → Llama 3.1 8B Instant            │
 └─────────────────────────────────────────┘
 ```
 
@@ -197,7 +197,7 @@ L'assistent **no pot** crear ni eliminar tasques directament (l'usuari ho ha de 
 | Frontend | Nuxt 3 (Vue 3 + Composition API) |
 | Estils | Tailwind CSS |
 | Serverless | Nitro (Nuxt server routes) |
-| IA | Anthropic SDK (`@anthropic-ai/sdk`) |
+| IA | Groq SDK (`groq-sdk`) |
 | PWA | `@vite-pwa/nuxt` |
 | Persistència client | localStorage (via composable `useTasks`) |
 | Identificadors | `nanoid` |
@@ -208,6 +208,6 @@ L'assistent **no pot** crear ni eliminar tasques directament (l'usuari ho ha de 
 
 | Variable | Descripció | Exemple |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Clau secreta de l'API d'Anthropic | `sk-ant-...` |
+| `GROQ_API_KEY` | Clau secreta de l'API de Groq | `gsk_...` |
 
 Guardar en fitxer `.env` (no pujar mai a Git).

@@ -1,64 +1,78 @@
 <template>
   <form
     @submit.prevent="submit"
-    class="bg-slate-800 rounded-xl p-5 border border-slate-700 space-y-4"
+    class="bg-paper rounded-2xl p-5 border border-sand/40 space-y-4 shadow-sm"
   >
-    <h2 class="text-lg font-semibold text-white">Nova tasca</h2>
+    <h2 class="text-base font-semibold text-olive-dark flex items-center gap-2">
+      <Plus class="w-4 h-4 text-olive" />
+      Nova tasca
+    </h2>
 
-    <div>
+    <div class="relative">
+      <Tag class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sand pointer-events-none" />
       <input
         v-model="form.title"
         type="text"
         placeholder="Títol de la tasca *"
         required
-        class="w-full bg-slate-900 text-white placeholder-slate-500 rounded-lg px-4 py-2.5 border border-slate-600 focus:outline-none focus:border-indigo-500"
+        class="w-full bg-cream text-olive-dark placeholder-sand rounded-xl pl-10 pr-4 py-2.5 border border-sand/50 focus:outline-none focus:border-olive transition-colors text-sm"
       />
     </div>
 
-    <div>
+    <div class="relative">
+      <AlignLeft class="absolute left-3 top-3 w-4 h-4 text-sand pointer-events-none" />
       <textarea
         v-model="form.description"
         placeholder="Descripció (opcional)"
         rows="2"
-        class="w-full bg-slate-900 text-white placeholder-slate-500 rounded-lg px-4 py-2.5 border border-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+        class="w-full bg-cream text-olive-dark placeholder-sand rounded-xl pl-10 pr-4 py-2.5 border border-sand/50 focus:outline-none focus:border-olive resize-none transition-colors text-sm"
       />
     </div>
 
     <div class="flex gap-3">
-      <select
-        v-model="form.priority"
-        class="flex-1 bg-slate-900 text-white rounded-lg px-4 py-2.5 border border-slate-600 focus:outline-none focus:border-indigo-500"
-      >
-        <option value="high">Alta prioritat</option>
-        <option value="medium">Prioritat mitjana</option>
-        <option value="low">Baixa prioritat</option>
-      </select>
+      <div class="relative flex-1">
+        <Flame class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sand pointer-events-none" />
+        <select
+          v-model="form.priority"
+          class="w-full bg-cream text-olive-dark rounded-xl pl-10 pr-4 py-2.5 border border-sand/50 focus:outline-none focus:border-olive transition-colors appearance-none text-sm"
+        >
+          <option value="high">Alta prioritat</option>
+          <option value="medium">Prioritat mitjana</option>
+          <option value="low">Baixa prioritat</option>
+        </select>
+      </div>
 
-      <input
-        v-model="form.dueDate"
-        type="date"
-        class="flex-1 bg-slate-900 text-white rounded-lg px-4 py-2.5 border border-slate-600 focus:outline-none focus:border-indigo-500"
-      />
+      <div class="relative flex-1">
+        <Calendar class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sand pointer-events-none" />
+        <input
+          v-model="form.dueDate"
+          type="date"
+          class="w-full bg-cream text-olive-dark rounded-xl pl-10 pr-4 py-2.5 border border-sand/50 focus:outline-none focus:border-olive transition-colors text-sm"
+        />
+      </div>
     </div>
 
     <button
       type="submit"
-      class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg py-2.5 transition-colors"
+      class="w-full bg-olive hover:bg-olive-dark text-paper font-medium rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 text-sm shadow-md shadow-olive/20"
     >
+      <Plus class="w-4 h-4" />
       Afegir tasca
     </button>
   </form>
 </template>
 
 <script setup lang="ts">
-const { addTask } = useTasks();
+import { Plus, Tag, AlignLeft, Flame, Calendar } from 'lucide-vue-next'
+
+const { addTask } = useTasks()
 
 const form = reactive({
-  title: "",
-  description: "",
-  priority: "medium" as "high" | "medium" | "low",
+  title: '',
+  description: '',
+  priority: 'medium' as 'high' | 'medium' | 'low',
   dueDate: null as string | null,
-});
+})
 
 const submit = () => {
   addTask({
@@ -66,10 +80,10 @@ const submit = () => {
     description: form.description,
     priority: form.priority,
     dueDate: form.dueDate || null,
-  });
-  form.title = "";
-  form.description = "";
-  form.priority = "medium";
-  form.dueDate = null;
-};
+  })
+  form.title = ''
+  form.description = ''
+  form.priority = 'medium'
+  form.dueDate = null
+}
 </script>
